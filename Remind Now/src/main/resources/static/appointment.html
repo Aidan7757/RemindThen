@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments</title>
+    <link rel="stylesheet" href="styles.css">
+    <style> @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&display=swap'); </style>    
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&display=swap" rel="stylesheet"><body>
+    <div id="header">
+        <a href="index.html" id="title-link">Remind Then Logo</a>
+        <a href="index.html" id="title-link">Remind Then</a>
+        <a href="appointment.html" id="title-link">Appointments</a>
+        <a href="calendar.html" id="title-link">Calendar</a>
+    </div>
+    <form id="form" action="/appointment_list" method="POST">
+        <label id="appointment-name" class="form-el">Appointment:</label>
+        <input name="name" type="text" id="appointment-name-textbox" class="form-el" required> 
+        <label id="date-picker" class="form-el">Date:</label>
+        <input name="date" type="date" id="date-picker-dropdown" class="form-el"/ required>
+        <label id="time-picker" class="form-el">Time:</label>
+        <input name="time" type="time" id="time-picker-dropdown" class="form-el"/ required>
+        <label id="phone-picker" class="form-el">Phone Number:</label>
+        <input name="phone" type="tel" id="phone-picker-box" class="form-el" placeholder="123-456-7890" required>
+        <button id="submit-button" type="submit" class="form-el">Add Appointment</button>
+    </form>
+    <div id="footer">
+        <h4 id="footer">Remind Then Footer</h4>
+    </div>
+    <script>
+        const form = document.getElementById("form");
+        form.addEventListener("submit", function(ev) {
+            ev.preventDefault();
+            const inputs = form.elements;
+
+            const data = {
+                name: inputs['name'].value,
+                date: inputs['date'].value,
+                time: inputs['time'].value,
+                phoneNumber: inputs['phone'].value
+            };
+            console.log(data);
+
+            fetch('/appointment_list', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
